@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "solomon-attendance-automation"
+version = "0.1.0"
+description = ""
+authors = ["Donghyeon Kim"]
+readme = "README.md"
+packages = [{include = "solomon_attendance_automation"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+certifi = "2018.11.29"
+chardet = "3.0.4"
+entrypoints = "0.2.3"
+idna = "2.8"
+mohawk = "0.3.4"
+requests = "2.21.0"
+requests-hawk = "1.0.0"
+six = "1.12.0"
+urllib3 = "1.24.2"
+python-dotenv = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
