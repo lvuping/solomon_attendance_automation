@@ -72,7 +72,6 @@ def main():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    # parser.add_argument('do', help='start/stop')
-    parser.add_argument('--days_ago', type=int, help='Number of days ago to start from', default=50)
+    parser.add_argument('--days_ago', type=int, help='Number of days ago to start from', default=7)
     args = parser.parse_args()
     main()
