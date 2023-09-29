@@ -65,13 +65,13 @@ def main():
         if target_date.weekday() < 5:  # Check if it's a weekday
             response = do_attendance(target_date)
             if response is not False and response.ok:
-                print('Done.')
+                print(f'Done: {target_date}')
             else:
                 print('Error: ' + response.text)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--days_ago', type=int, help='Number of days ago to start from', default=7)
+    parser.add_argument('--days_ago', type=int, help='Number of days ago to start from', default=100)
     args = parser.parse_args()
     main()

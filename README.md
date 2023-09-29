@@ -13,7 +13,7 @@ This project uses Poetry for dependency management. If you haven't installed Poe
 #### macOS / Linux / BashOnWindows
 
 ```bash
-curl -sSL https://install.python-poetry.org | bash
+curl -sSL https://install.python-poetry.org | python3 -
 ```
 Windows PowerShell
 ```powershell
