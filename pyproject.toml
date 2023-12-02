@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["Donghyeon Kim"]
 readme = "README.md"
-packages = [{include = "solomon_attendance_automation"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
