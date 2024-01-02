@@ -6,7 +6,7 @@ authors = ["Donghyeon Kim"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.09"
 certifi = "2018.11.29"
 chardet = "3.0.4"
 entrypoints = "0.2.3"
