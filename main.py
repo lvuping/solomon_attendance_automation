@@ -67,28 +67,22 @@ def main():
     for i in range(days_ago + 1):
         target_date = start_date + timedelta(days=i)
 
-        if target_date.date() == current_date.date():  # Check if target_date is today
-            continue  # Skip processing today
+        # if target_date.date() == current_date.date():  # Check if target_date is today
+        #     continue  # Skip processing today
 
         if target_date.weekday() < 5:  # Check if it's a weekday
             response1 = do_attendance(target_date, API_KEY1, USER_ID1)
             response2 = do_attendance(target_date, API_KEY2, USER_ID2)
-            if (
-                response1 is not False
-                and response1.ok
-                and response2 is not False
-                and response2.ok
-            ):
+            if (response1.ok and response2.ok):
                 print(f"Done: {target_date}")
             else:
-                print("Error: " + response1.text)
-                print("Error: " + response2.text)
+                print("Error on " + str(target_date) + ": " + response1.text, response2.text)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--days_ago", type=int, help="Number of days ago to start from", default=30
+        "--days_ago", type=int, help="Number of days ago to start from", default=5
     )
     args = parser.parse_args()
     main()
