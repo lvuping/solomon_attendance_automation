@@ -36,6 +36,11 @@ def get_end_of_work(target_date):
 
 
 def do_attendance_start(target_date, api_key, user_id):
+    # 이미 출근 기록이 있는지 확인
+    if os.path.exists("date_log.txt"):
+        print("이미 출근 기록이 존재합니다.")
+        return None
+
     payload = {
         "userId": user_id,
         "timezoneName": TIMEZONE_NAME,
@@ -53,17 +58,13 @@ def do_attendance_start(target_date, api_key, user_id):
     )
 
     if response.ok:
-        # 응답 내용 출력
         print("API Response:", response.json())
         timespan_data = response.json()
         timespan_id = timespan_data.get("_id")
 
-        # timespan ID와 날짜를 텍스트 파일에 저장
         with open("date_log.txt", "w") as f:
-            f.write(f"{timespan_id}\n")  # 첫 줄에 ID 저장
-            f.write(
-                f"{get_start_of_work(target_date)}\n"
-            )  # 두 번째 줄에 시작 시간 저장
+            f.write(f"{timespan_id}\n")
+            f.write(f"{get_start_of_work(target_date)}\n")
     else:
         print("Error Response:", response.text)
 
@@ -114,12 +115,10 @@ def main():
     args = parser.parse_args()
 
     if args.date:
-        # 테스트용 날짜 사용
         current_date = datetime.strptime(args.date, "%Y-%m-%d")
         if args.hour is not None:
             current_date = current_date.replace(hour=args.hour)
     else:
-        # 실제 현재 시간 사용
         current_date = datetime.utcnow()
 
     current_hour = current_date.hour
@@ -128,10 +127,12 @@ def main():
     if current_hour < END_HOUR:
         print(f"출근 기록 시작: {current_date}")
         response1 = do_attendance_start(current_date, API_KEY1, USER_ID1)
-        if response1.ok:
+        if response1 and response1.ok:
             print(f"출근 기록 완료: {current_date}")
-        else:
+        elif response1:
             print("출근 기록 오류: " + str(current_date) + ": " + response1.text)
+        else:
+            print("이미 출근 처리가 되어있습니다.")
 
     # 오후 퇴근 기록
     if current_hour >= END_HOUR:
