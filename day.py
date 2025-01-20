@@ -126,6 +126,7 @@ def main():
 
     # 오전 출근 기록
     if current_hour < END_HOUR:
+        print(f"출근 기록 시작: {current_date}")
         response1 = do_attendance_start(current_date, API_KEY1, USER_ID1)
         if response1.ok:
             print(f"출근 기록 완료: {current_date}")
@@ -134,6 +135,7 @@ def main():
 
     # 오후 퇴근 기록
     if current_hour >= END_HOUR:
+        print(f"퇴근 기록 시작: {current_date}")
         response1 = do_attendance_end(current_date, API_KEY1, USER_ID1)
         if response1 and response1.ok:
             print(f"퇴근 기록 완료: {current_date}")
