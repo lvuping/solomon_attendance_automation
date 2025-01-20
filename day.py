@@ -13,8 +13,8 @@ API_KEY1 = os.getenv("API_KEY1")
 
 TIMEZONE_NAME = os.getenv("TIMEZONE_NAME")
 
-START_HOUR_IN_MORNING = 8
-END_HOUR = 17
+START_HOUR_IN_MORNING = 7
+END_HOUR = 16
 
 # TIMEZONE = '+0100' # 시차가 있을 때 1 사용
 
@@ -126,30 +126,42 @@ def main():
     current_hour = current_date.hour
     print(f"현재 시간: {current_date}")
 
-    # 오전 출근 기록
-    if current_hour < END_HOUR:
-        print(f"출근 기록 시작: {current_date}")
-        response1 = do_attendance_start(current_date, API_KEY1, USER_ID1)
-        if response1 and response1.ok:
-            print(f"출근 기록 완료: {current_date}")
-        elif response1:
-            print("출근 기록 오류: " + str(current_date) + ": " + response1.text)
-        else:
-            print("이미 출근 처리가 되어있습니다.")
-
-    # 오후 퇴근 기록
+    # 17시 이후: 퇴근 처리
     if current_hour >= END_HOUR:
-        print(f"퇴근 기록 시작: {current_date}")
+        if not os.path.exists("date_log.txt"):
+            print("출근 기록이 없어 퇴근 처리를 할 수 없습니다.")
+            return
+
+        print("퇴근 처리를 시작합니다...")
         response1 = do_attendance_end(current_date, API_KEY1, USER_ID1)
         if response1 and response1.ok:
             print(f"퇴근 기록 완료: {current_date}")
+            # 성공적으로 퇴근 처리되면 파일 삭제
+            if os.path.exists("date_log.txt"):
+                os.remove("date_log.txt")
+                print("date_log.txt 파일이 삭제되었습니다.")
         else:
-            print(
-                "퇴근 기록 오류: "
-                + str(current_date)
-                + ": "
-                + (response1.text if response1 else "출근 기록이 없습니다")
-            )
+            error_msg = response1.text if response1 else "출근 기록이 없습니다"
+            print(f"퇴근 기록 오류: {current_date}: {error_msg}")
+
+    # 8시 이후 17시 이전: 출근 처리
+    elif START_HOUR_IN_MORNING <= current_hour < END_HOUR:
+        if os.path.exists("date_log.txt"):
+            print("이미 출근 기록이 존재합니다.")
+            return
+
+        print("출근 처리를 시작합니다...")
+        response1 = do_attendance_start(current_date, API_KEY1, USER_ID1)
+        if response1 and response1.ok:
+            print(f"출근 기록 완료: {current_date}")
+        else:
+            error_msg = response1.text if response1 else "Unknown error"
+            print(f"출근 기록 오류: {current_date}: {error_msg}")
+
+    else:
+        print(
+            f"출/퇴근 처리 시간이 아닙니다. (출근: {START_HOUR_IN_MORNING}시 이후, 퇴근: {END_HOUR}시 이후)"
+        )
 
 
 if __name__ == "__main__":
