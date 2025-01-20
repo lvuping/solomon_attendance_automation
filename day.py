@@ -13,7 +13,7 @@ API_KEY1 = os.getenv("API_KEY1")
 
 TIMEZONE_NAME = os.getenv("TIMEZONE_NAME")
 
-START_HOUR_IN_MORNING = 7
+START_HOUR_IN_MORNING = 8
 END_HOUR = 17
 
 # TIMEZONE = '+0100' # 시차가 있을 때 1 사용
@@ -79,7 +79,6 @@ def do_attendance_end(target_date, api_key, user_id):
             timespan_id = lines[0].strip()  # 첫 번째 줄에서 ID 읽기
             start_time = lines[1].strip()  # 두 번째 줄에서 시작 시간 읽기
 
-        # API 문서에 따라 start와 end 모두 포함해야 함
         payload = {
             "start": start_time,
             "end": get_end_of_work(target_date),
@@ -99,6 +98,7 @@ def do_attendance_end(target_date, api_key, user_id):
             # 성공적으로 업데이트되면 로그 파일 삭제
             os.remove("date_log.txt")
             print("API Response:", response.json())
+            print("퇴근 처리가 완료되어 date_log.txt 파일을 삭제했습니다.")
         else:
             print("Error Response:", response.text)
 
