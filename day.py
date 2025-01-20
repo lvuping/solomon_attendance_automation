@@ -2,7 +2,7 @@ import argparse
 import json
 from requests_hawk import HawkAuth
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import random
 from dotenv import load_dotenv
 import os
@@ -115,13 +115,16 @@ def main():
     args = parser.parse_args()
 
     if args.date:
+        # 테스트용 날짜 사용
         current_date = datetime.strptime(args.date, "%Y-%m-%d")
         if args.hour is not None:
             current_date = current_date.replace(hour=args.hour)
     else:
-        current_date = datetime.utcnow()
+        # 현지 시간 사용 (UTC+1)
+        current_date = datetime.now(timezone(timedelta(hours=1)))
 
     current_hour = current_date.hour
+    print(f"현재 시간: {current_date}")
 
     # 오전 출근 기록
     if current_hour < END_HOUR:
