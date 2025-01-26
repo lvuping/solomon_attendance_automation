@@ -8,8 +8,8 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-USER_ID1 = os.getenv("USER_ID1")
-API_KEY1 = os.getenv("API_KEY1")
+USER_ID = os.getenv("USER_ID")
+API_KEY = os.getenv("API_KEY")
 
 TIMEZONE_NAME = os.getenv("TIMEZONE_NAME")
 
@@ -133,7 +133,7 @@ def main():
             return
 
         print("퇴근 처리를 시작합니다...")
-        response1 = do_attendance_end(current_date, API_KEY1, USER_ID1)
+        response1 = do_attendance_end(current_date, API_KEY, USER_ID)
         if response1 and response1.ok:
             print(f"퇴근 기록 완료: {current_date}")
             # 성공적으로 퇴근 처리되면 파일 삭제
@@ -151,7 +151,7 @@ def main():
             return
 
         print("출근 처리를 시작합니다...")
-        response1 = do_attendance_start(current_date, API_KEY1, USER_ID1)
+        response1 = do_attendance_start(current_date, API_KEY, USER_ID)
         if response1 and response1.ok:
             print(f"출근 기록 완료: {current_date}")
         else:
