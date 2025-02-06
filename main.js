@@ -28,7 +28,7 @@ function getRandomTime(date, hour) {
   const localTime = new Date(date);
 
   // CET 시간대로 시간 설정 (UTC+1)
-  localTime.setUTCHours(hour - 1, randomMinute, 0, 0); // CET는 UTC+1이므로 1시간을 빼줍니다
+  localTime.setUTCHours(hour, randomMinute, 0, 0); // CET는 UTC+1이므로 1시간을 빼줍니다
 
   console.log(
     `생성된 시간 - 로컬(CET): ${new Date(
