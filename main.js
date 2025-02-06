@@ -14,8 +14,8 @@ const USER_ID = process.env.USER_ID;
 const API_KEY = process.env.API_KEY;
 const TIMEZONE_NAME = process.env.TIMEZONE_NAME;
 
-const START_HOUR = 8;
-const END_HOUR = 18;
+const START_HOUR = 7;
+const END_HOUR = 17;
 
 function getRandomTime(date, hour) {
   // END_HOUR일 때는 0-15분 사이의 랜덤값, 그 외에는 1-59분 사이의 랜덤값
