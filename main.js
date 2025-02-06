@@ -67,6 +67,8 @@ async function recordAttendance(date) {
 
   const { header: hawkHeader } = Hawk.client.header(url, "POST", {
     credentials,
+    payload: JSON.stringify(payload),
+    contentType: "application/json",
   });
 
   try {
